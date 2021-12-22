@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SpiceProject.Data;
 using SpiceProject.Models;
 using SpiceProject.Models.ViewModels;
+using SpiceProject.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace SpiceProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
 
-    //[Authorize(Roles = SD.ManagerUser)]
+    [Authorize(Roles = SD.ManagerUser)]
     public class SubCategoryController : Controller
     {
         private readonly ApplicationDbContext _db;

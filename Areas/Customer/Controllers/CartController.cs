@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -272,6 +273,10 @@ namespace SpiceProject.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+        
+
 
     }
 }

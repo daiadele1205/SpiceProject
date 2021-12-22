@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpiceProject.Data;
 using SpiceProject.Models;
+using SpiceProject.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 namespace SpiceProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.ManagerUser)]
+    [Authorize(Roles = SD.ManagerUser)]
     public class CouponController : Controller
     {
         private readonly ApplicationDbContext _db;

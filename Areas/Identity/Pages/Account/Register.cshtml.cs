@@ -25,7 +25,6 @@ namespace SpiceProject.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
@@ -90,7 +89,7 @@ namespace SpiceProject.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            string role = Request.Form["rdUserRole"].ToString();
+            string role = Request.Form["rdUserRole"].ToString();  //Video 143
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -110,33 +109,74 @@ namespace SpiceProject.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    //Code to create the roles in the database
-                    //Keep these lines in the first the program is run then comment them out
-                    if (!await _roleManager.RoleExistsAsync(SD.ManagerUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.ManagerUser));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(SD.CustomerEndUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.CustomerEndUser));
-                    }
 
-                    if (role == SD.ManagerUser)
+                    //Video 141  Keep these lines in the first the program is run then comment them out
+
+
+
+                    //if (!await _roleManager.RoleExistsAsync(SD.CustomerEndUser))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(SD.CustomerEndUser));
+                    //}
+
+                    //if (!await _roleManager.RoleExistsAsync(SD.ManagerUser))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(SD.ManagerUser));
+                    //}
+                    //if (!await _roleManager.RoleExistsAsync(SD.FrontDeskUser))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(SD.FrontDeskUser));
+                    //}
+                    //if (!await _roleManager.RoleExistsAsync(SD.KitchenUser))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(SD.KitchenUser));
+                    //}
+
+                    //await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //return LocalRedirect(returnUrl);
+
+                    //(above code) video 141 Create an Admin account when the default role is Manager
+
+
+                    //Code to create the roles in the database(Make the change so that any new accounts created default to Customer.)
+
+
+                    if (role == SD.KitchenUser) //Video 143
                     {
-                        await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                        await _userManager.AddToRoleAsync(user, SD.KitchenUser);
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, SD.CustomerEndUser);
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (role == SD.FrontDeskUser)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.FrontDeskUser);
+                        }
+                        else
+                        {
+                            if (role == SD.ManagerUser)
+                            {
+                                await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                            }
+                            else
+                            {
+                                await _userManager.AddToRoleAsync(user, SD.CustomerEndUser);
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return LocalRedirect(returnUrl);
+                            }
+                        }
                     }
 
+                    return RedirectToAction("Index", "User", new { area = "Admin" });
 
 
-                    return LocalRedirect(returnUrl);
 
-                    _logger.LogInformation("User created a new account with password.");
+                    //_logger.LogInformation("User created a new account with password.");
+
+
+
+
+
 
                 }
                 foreach (var error in result.Errors)
@@ -150,4 +190,20 @@ namespace SpiceProject.Areas.Identity.Pages.Account
         }
     }
 }
-                
+
+//if (role == SD.ManagerUser)
+//{
+//    await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+//}
+//else
+//{
+//    await _userManager.AddToRoleAsync(user, SD.CustomerEndUser);
+//    await _signInManager.SignInAsync(user, isPersistent: false);
+//    return LocalRedirect(returnUrl);
+//}
+
+
+
+//return RedirectToAction("Index", "User", new { area = "Admin" });
+
+//_logger.LogInformation("User created a new account with password.");

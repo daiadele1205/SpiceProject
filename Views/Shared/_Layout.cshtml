@@ -37,7 +37,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">
                     <img src="~/images/mild.png" />
                     <img src="~/images/spicy.png" />
                     <img src="~/images/verySpicy.png" />
@@ -70,7 +70,7 @@
                             </li>
                         @*}*@
 
-                        @*@if (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.CustomerEndUser) || User.IsInRole(SD.FrontDeskUser) || User.IsInRole(SD.KitchenUser))
+                        @if (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.CustomerEndUser) || User.IsInRole(SD.FrontDeskUser) || User.IsInRole(SD.KitchenUser))
                         {
                             <li class="nav-item">
                                 <a asp-area="Customer" asp-controller="Order" asp-action="OrderHistory" class="nav-link">
@@ -97,7 +97,7 @@
                                 </div>
 
                             </li>
-                        }*@
+                        }
 
 
                         @if (IHttpContextAccessor.HttpContext.Session.GetInt32(@SD.ssShoppingCartCount) != null)
